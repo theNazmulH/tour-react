@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import Tour from './Tour';
 
 function App() {
+  const [tours, setTour] = useState([]);
+  useEffect(() => {
+    fetch('https://raw.githubusercontent.com/theNazmulH/api/main/tour.json')
+      .then(res => res.json())
+      .then(data => setTour(data));
+
+  },[]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Available Tours</h1>
+      <div className="tours">
+      {
+        tours.map(tour => <Tour image={tour.image} name={tour.name} price={tour.price} address={tour.address} description={tour.description }/>)
+      }
+    </div>
     </div>
   );
 }
